@@ -14,14 +14,25 @@ public class Board {
         cells = new int[h][w];
     }
 
+    /**
+     * @return the width of the board
+     */
     public int getWidth() {
         return cells[0].length;
     }
 
+    /**
+     * @return the height of the board
+     */
     public int getHeight() {
         return cells.length;
     }
 
+    /**
+     * @param x the x-component
+     * @param y the y-component
+     * @return true if the cell is alive in the given position and false otherwise
+     */
     public boolean isAlive(int x, int y) {
         x %= getWidth();
         y %= getHeight();
@@ -34,6 +45,9 @@ public class Board {
         return cells[y][x] == 1;
     }
 
+    /**
+     * Generates a random board.
+     */
     public void generate() {
         Random rand = new Random();
 
@@ -42,12 +56,22 @@ public class Board {
                 cells[i][j] = rand.nextInt(2);
     }
 
+    /**
+     * Clears the board.
+     */
     public void clear() {
         for (int i = 0; i < cells.length; i++)
             for (int j = 0; j < cells[0].length; j++)
                 cells[i][j] = 0;
     }
 
+    /**
+     * Returns the number of neighbours in the given position.
+     *
+     * @param x the x-component
+     * @param y
+     * @return the number of neighbours
+     */
     public int neighboursCountAt(int x, int y) {
         int count = 0;
 
@@ -62,6 +86,9 @@ public class Board {
         return count;
     }
 
+    /**
+     * Updates the board.
+     */
     public void nextGeneration() {
         int newCells[][] = new int[getHeight()][getWidth()];
 
