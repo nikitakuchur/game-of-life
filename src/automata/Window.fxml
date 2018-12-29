@@ -11,8 +11,8 @@
    <children>
       <HBox prefWidth="200.0" spacing="8.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#handleRandomButtonClick" text="Random" />
-            <Button mnemonicParsing="false" onAction="#handleClearButtonClick" text="Clear" />
+            <Button fx:id="randomButton" mnemonicParsing="false" onAction="#handleRandomButtonClick" text="Random" />
+            <Button fx:id="clearButton" mnemonicParsing="false" onAction="#handleClearButtonClick" text="Clear" />
          </children>
       </HBox>
       <Pane fx:id="pane" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
