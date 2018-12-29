@@ -90,10 +90,13 @@ public class Board {
      * Updates the board.
      */
     public void nextGeneration() {
-        int newCells[][] = new int[getHeight()][getWidth()];
+        int w = getWidth();
+        int h = getHeight();
 
-        for (int i = 0; i < getWidth(); i++) {
-            for (int j = 0; j < getHeight(); j++) {
+        int newCells[][] = new int[h][w];
+
+        for (int i = 0; i < w; i++) {
+            for (int j = 0; j < h; j++) {
                 if (!isAlive(i, j) && neighboursCountAt(i, j) == 3)
                     newCells[j][i] = 1;
 
@@ -105,6 +108,7 @@ public class Board {
                 }
             }
         }
+
         cells = newCells;
     }
 }
