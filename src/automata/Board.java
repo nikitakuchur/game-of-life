@@ -1,5 +1,6 @@
 package automata;
 
+import java.awt.geom.Point2D;
 import java.util.Random;
 
 public class Board {
@@ -43,6 +44,24 @@ public class Board {
             y += getHeight();
 
         return cells[y][x] == 1;
+    }
+
+    /**
+     * Kills the cell in the given position.
+     * @param x the x-component
+     * @param y the y-component
+     */
+    public void kill(int x, int y) {
+        cells[y][x] = 0;
+    }
+
+    /**
+     * Revives the cell in the given position.
+     * @param x the x-component
+     * @param y the y-component
+     */
+    public void revive(int x, int y) {
+        cells[y][x] = 1;
     }
 
     /**
