@@ -87,7 +87,7 @@ public class Board {
      * Returns the number of neighbours in the given position.
      *
      * @param x the x-component
-     * @param y
+     * @param y the y-component
      * @return the number of neighbours
      */
     public int neighboursCountAt(int x, int y) {
