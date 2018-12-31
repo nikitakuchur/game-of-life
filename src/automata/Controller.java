@@ -1,5 +1,6 @@
 package automata;
 
+import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -81,7 +82,7 @@ public class Controller implements Initializable {
                     protected Void call() throws Exception {
                         while (!stopButton.isPressed()) {
                             board.nextGeneration();
-                            draw(canvas.getGraphicsContext2D());
+                            Platform.runLater(() -> draw(canvas.getGraphicsContext2D()));
                             Thread.sleep(100);
                         }
                         return null;
@@ -92,16 +93,12 @@ public class Controller implements Initializable {
 
         service.setOnRunning(v -> {
             // Lock the buttons
-            randomButton.setDisable(true);
-            clearButton.setDisable(true);
             playButton.setDisable(true);
             stopButton.setDisable(false);
         });
 
         service.setOnSucceeded(v -> {
             // Unlock the buttons
-            randomButton.setDisable(false);
-            clearButton.setDisable(false);
             playButton.setDisable(false);
             stopButton.setDisable(true);
             service.reset();
