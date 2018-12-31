@@ -129,11 +129,16 @@ public class Controller implements Initializable {
         return new Point2D(x, y);
     }
 
-    // TODO: Fix it
+    /**
+     * Draws the grid and cells.
+     *
+     * @param gc the graphicsContext
+     */
     private void draw(GraphicsContext gc) {
         double size = getCellSize();
         Point2D boardPosition = getBoardPosition();
 
+        // Clear the canvas
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         // Draw the grid
