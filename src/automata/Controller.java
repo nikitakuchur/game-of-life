@@ -92,19 +92,20 @@ public class Controller implements Initializable {
         };
 
         service.setOnRunning(v -> {
-            // Lock the buttons
             playButton.setDisable(true);
             stopButton.setDisable(false);
         });
 
         service.setOnSucceeded(v -> {
-            // Unlock the buttons
             playButton.setDisable(false);
             stopButton.setDisable(true);
             service.reset();
         });
     }
 
+    /**
+     * @return the cell size
+     */
     private double getCellSize() {
         double wr = canvas.getWidth() / board.getWidth();
         double hr = canvas.getHeight() / board.getHeight();
@@ -112,6 +113,9 @@ public class Controller implements Initializable {
         return wr > hr ? hr : wr;
     }
 
+    /**
+     * @return the board position
+     */
     private Point2D getBoardPosition() {
         double size = getCellSize();
         double x = canvas.getWidth() / 2 - board.getWidth() * size / 2;
