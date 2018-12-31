@@ -3,6 +3,7 @@ package automata;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
@@ -10,6 +11,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -56,14 +58,14 @@ public class Controller implements Initializable {
             draw(canvas.getGraphicsContext2D());
         });
 
-        canvas.setOnMouseDragged(event -> {
+        EventHandler<MouseEvent> handler = event -> {
             Point2D boardPosition = getBoardPosition();
 
             int x = (int) ((event.getX() - boardPosition.getX()) /
-                          ((canvas.getWidth() - 2 * boardPosition.getX()) / board.getWidth()));
+                    ((canvas.getWidth() - 2 * boardPosition.getX()) / board.getWidth()));
 
             int y = (int) ((event.getY() - boardPosition.getY()) /
-                          ((canvas.getHeight() - 2 * boardPosition.getY()) / board.getHeight()));
+                    ((canvas.getHeight() - 2 * boardPosition.getY()) / board.getHeight()));
 
             if (event.getButton() == MouseButton.PRIMARY)
                 board.revive(x, y);
@@ -71,7 +73,10 @@ public class Controller implements Initializable {
                 board.kill(x, y);
 
             draw(canvas.getGraphicsContext2D());
-        });
+        };
+
+        canvas.setOnMousePressed(handler);
+        canvas.setOnMouseDragged(handler);
 
         service = new Service<Void>() {
             @Override
