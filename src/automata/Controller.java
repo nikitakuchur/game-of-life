@@ -40,6 +40,7 @@ public class Controller implements Initializable {
 
     private Board board;
     private Service<Void> service;
+    private boolean running;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -85,7 +86,7 @@ public class Controller implements Initializable {
 
                     @Override
                     protected Void call() throws Exception {
-                        while (!stopButton.isPressed()) {
+                        while (running) {
                             board.nextGeneration();
                             Platform.runLater(() -> draw(canvas.getGraphicsContext2D()));
                             Thread.sleep(100);
@@ -173,6 +174,11 @@ public class Controller implements Initializable {
 
     @FXML
     public void handlePlayButtonClick() {
+        running = true;
         service.start();
+    }
+
+    public void handleStopButtonClick() {
+        running = false;
     }
 }

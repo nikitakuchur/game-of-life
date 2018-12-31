@@ -21,7 +21,7 @@
       <HBox alignment="TOP_RIGHT" prefWidth="200.0" spacing="8.0">
          <children>
             <Button fx:id="playButton" mnemonicParsing="false" onAction="#handlePlayButtonClick" text="Play" />
-            <Button fx:id="stopButton" disable="true" mnemonicParsing="false" text="Stop" />
+            <Button fx:id="stopButton" disable="true" mnemonicParsing="false" onAction="#handleStopButtonClick" text="Stop" />
          </children>
       </HBox>
    </children>
