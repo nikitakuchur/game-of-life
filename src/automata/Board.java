@@ -4,14 +4,14 @@ import java.util.Random;
 
 public class Board {
 
-    private int[][] cells;
+    private boolean[][] cells;
 
     public Board() {
-        cells = new int[60][80];
+        cells = new boolean[60][80];
     }
 
     public Board(int w, int h) {
-        cells = new int[h][w];
+        cells = new boolean[h][w];
     }
 
     /**
@@ -42,7 +42,7 @@ public class Board {
         if (y < 0)
             y += getHeight();
 
-        return cells[y][x] == 1;
+        return cells[y][x];
     }
 
     /**
@@ -51,7 +51,7 @@ public class Board {
      * @param y the y-component
      */
     public void kill(int x, int y) {
-        cells[y][x] = 0;
+        cells[y][x] = false;
     }
 
     /**
@@ -60,7 +60,7 @@ public class Board {
      * @param y the y-component
      */
     public void revive(int x, int y) {
-        cells[y][x] = 1;
+        cells[y][x] = true;
     }
 
     /**
@@ -71,7 +71,8 @@ public class Board {
 
         for (int i = 0; i < cells.length; i++)
             for (int j = 0; j < cells[0].length; j++)
-                cells[i][j] = rand.nextInt(2);
+                if (rand.nextInt(2) == 1 )
+                    cells[i][j] = true;
     }
 
     /**
@@ -80,7 +81,7 @@ public class Board {
     public void clear() {
         for (int i = 0; i < cells.length; i++)
             for (int j = 0; j < cells[0].length; j++)
-                cells[i][j] = 0;
+                cells[i][j] = false;
     }
 
     /**
@@ -110,23 +111,22 @@ public class Board {
     public void nextGeneration() {
         int w = getWidth();
         int h = getHeight();
-
-        int newCells[][] = new int[h][w];
+        
+        boolean newCells[][] = new boolean[h][w];
 
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
                 if (!isAlive(i, j) && neighboursCountAt(i, j) == 3)
-                    newCells[j][i] = 1;
+                    newCells[j][i] = true;
 
                 if (isAlive(i, j)) {
                     if ((neighboursCountAt(i, j) == 2 || neighboursCountAt(i, j) == 3))
-                        newCells[j][i] = 1;
+                        newCells[j][i] = true;
                     else
-                        newCells[j][i] = 0;
+                        newCells[j][i] = false;
                 }
             }
         }
-
         cells = newCells;
     }
 }

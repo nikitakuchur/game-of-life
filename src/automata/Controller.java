@@ -178,6 +178,7 @@ public class Controller implements Initializable {
         service.start();
     }
 
+    @FXML
     public void handleStopButtonClick() {
         running = false;
     }
