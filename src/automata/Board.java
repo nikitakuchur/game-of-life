@@ -28,19 +28,28 @@ public class Board {
         return cells.length;
     }
 
+    private int convertX(int x) {
+        x %= getWidth();
+        if (x < 0)
+            x += getWidth();
+        return x;
+    }
+
+    private int convertY(int y) {
+        y %= getHeight();
+        if (y < 0)
+            y += getHeight();
+        return y;
+    }
+
     /**
      * @param x the x-component
      * @param y the y-component
      * @return true if the cell is alive in the given position and false otherwise
      */
     public boolean isAlive(int x, int y) {
-        x %= getWidth();
-        y %= getHeight();
-
-        if (x < 0)
-            x += getWidth();
-        if (y < 0)
-            y += getHeight();
+        x = convertX(x);
+        y = convertY(y);
 
         return cells[y][x];
     }
@@ -51,6 +60,8 @@ public class Board {
      * @param y the y-component
      */
     public void kill(int x, int y) {
+        x = convertX(x);
+        y = convertY(y);
         cells[y][x] = false;
     }
 
@@ -60,6 +71,8 @@ public class Board {
      * @param y the y-component
      */
     public void revive(int x, int y) {
+        x = convertX(x);
+        y = convertY(y);
         cells[y][x] = true;
     }
 
@@ -120,7 +133,7 @@ public class Board {
                     newCells[j][i] = true;
 
                 if (isAlive(i, j)) {
-                    if ((neighboursCountAt(i, j) == 2 || neighboursCountAt(i, j) == 3))
+                    if (neighboursCountAt(i, j) == 2 || neighboursCountAt(i, j) == 3)
                         newCells[j][i] = true;
                     else
                         newCells[j][i] = false;
