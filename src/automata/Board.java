@@ -5,13 +5,16 @@ import java.util.Random;
 public class Board {
 
     private boolean[][] cells;
+    private boolean toroidal;
 
     public Board() {
         cells = new boolean[60][80];
+        toroidal = false;
     }
 
-    public Board(int w, int h) {
+    public Board(int w, int h, boolean toroidal) {
         cells = new boolean[h][w];
+        this.toroidal = toroidal;
     }
 
     /**
@@ -48,8 +51,17 @@ public class Board {
      * @return true if the cell is alive in the given position and false otherwise
      */
     public boolean isAlive(int x, int y) {
-        x = convertX(x);
-        y = convertY(y);
+        if (toroidal) {
+            x = convertX(x);
+            y = convertY(y);
+
+            return cells[y][x];
+        }
+
+        if (x < 0 || x >= getWidth())
+            return false;
+        if (y < 0 || y >= getHeight())
+            return false;
 
         return cells[y][x];
     }
