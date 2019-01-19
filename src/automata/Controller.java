@@ -68,6 +68,9 @@ public class Controller implements Initializable {
             int y = (int) ((event.getY() - boardPosition.getY()) /
                     ((canvas.getHeight() - 2 * boardPosition.getY()) / board.getHeight()));
 
+            if (x < 0 || x >= board.getWidth() || y < 0 || y >= board.getHeight())
+                return;
+
             if (event.getButton() == MouseButton.PRIMARY)
                 board.revive(x, y);
             else if (event.getButton() == MouseButton.SECONDARY)
