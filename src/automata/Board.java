@@ -80,6 +80,7 @@ public class Board {
      * Generates a random board.
      */
     public void generate() {
+        clear();
         Random rand = new Random();
 
         for (int i = 0; i < cells.length; i++)
