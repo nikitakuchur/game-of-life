@@ -1,8 +1,9 @@
 package automata;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Board {
+public class Board implements Serializable {
 
     private boolean[][] cells;
     private boolean toroidal;
@@ -58,9 +59,7 @@ public class Board {
             return cells[y][x];
         }
 
-        if (x < 0 || x >= getWidth())
-            return false;
-        if (y < 0 || y >= getHeight())
+        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight())
             return false;
 
         return cells[y][x];
@@ -138,7 +137,7 @@ public class Board {
         int w = getWidth();
         int h = getHeight();
         
-        boolean cells[][] = new boolean[h][w];
+        boolean[][] cells = new boolean[h][w];
 
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
