@@ -167,7 +167,7 @@ public class Controller implements Initializable {
     public void handleNewButtonClick() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Dialog.fxml"));
         Parent parent = fxmlLoader.load();
-        DialogController dc = fxmlLoader.<DialogController>getController();
+        DialogController dc = fxmlLoader.getController();
 
         Scene scene = new Scene(parent, 250, 150);
         Stage stage = new Stage();
@@ -179,6 +179,11 @@ public class Controller implements Initializable {
 
         board = new Board(dc.widthSpinner.getValue(), dc.heightSpinner.getValue(), dc.toroidal.isSelected());
         draw(canvas.getGraphicsContext2D());
+    }
+
+    @FXML
+    public void handleExitButtonClick() {
+        Platform.exit();
     }
 
     @FXML

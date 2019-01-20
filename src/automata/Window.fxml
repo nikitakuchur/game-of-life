@@ -21,7 +21,7 @@
                   <MenuItem mnemonicParsing="false" text="Save" />
                   <MenuItem mnemonicParsing="false" text="Save As...." />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Exit" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleExitButtonClick" text="Exit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
