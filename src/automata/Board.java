@@ -138,21 +138,21 @@ public class Board {
         int w = getWidth();
         int h = getHeight();
         
-        boolean newCells[][] = new boolean[h][w];
+        boolean cells[][] = new boolean[h][w];
 
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
                 if (!isAlive(i, j) && neighboursCountAt(i, j) == 3)
-                    newCells[j][i] = true;
+                    cells[j][i] = true;
 
                 if (isAlive(i, j)) {
                     if (neighboursCountAt(i, j) == 2 || neighboursCountAt(i, j) == 3)
-                        newCells[j][i] = true;
+                        cells[j][i] = true;
                     else
-                        newCells[j][i] = false;
+                        cells[j][i] = false;
                 }
             }
         }
-        cells = newCells;
+        this.cells = cells;
     }
 }
