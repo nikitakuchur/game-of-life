@@ -5,8 +5,11 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -14,7 +17,10 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -155,6 +161,24 @@ public class Controller implements Initializable {
             for (int j = 0; j < board.getHeight(); j++)
                 if (board.isAlive(i, j))
                     gc.fillRect(boardPosition.getX() + i * size, boardPosition.getY() + j * size, size, size);
+    }
+
+    @FXML
+    public void handleNewButtonClick() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Dialog.fxml"));
+        Parent parent = fxmlLoader.load();
+        DialogController dc = fxmlLoader.<DialogController>getController();
+
+        Scene scene = new Scene(parent, 250, 150);
+        Stage stage = new Stage();
+        stage.setTitle("New Board");
+        stage.setResizable(false);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.showAndWait();
+
+        board = new Board(dc.widthSpinner.getValue(), dc.heightSpinner.getValue(), dc.toroidal.isSelected());
+        draw(canvas.getGraphicsContext2D());
     }
 
     @FXML
