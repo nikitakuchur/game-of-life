@@ -21,12 +21,6 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     @FXML
-    public Button randomButton;
-
-    @FXML
-    public Button clearButton;
-
-    @FXML
     public Pane pane;
 
     @FXML

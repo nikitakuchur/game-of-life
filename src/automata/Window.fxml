@@ -26,7 +26,8 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" onAction="#handleRandomButtonClick" text="Random" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleClearButtonClick" text="Clear" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -36,12 +37,6 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ToolBar prefHeight="40.0" prefWidth="200.0">
-         <items>
-            <Button fx:id="randomButton" mnemonicParsing="false" onAction="#handleRandomButtonClick" text="Random" />
-            <Button fx:id="clearButton" mnemonicParsing="false" onAction="#handleClearButtonClick" text="Clear" />
-         </items>
-      </ToolBar>
       <Pane fx:id="pane" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
             <Canvas fx:id="canvas" height="200.0" width="200.0" />
       </Pane>
