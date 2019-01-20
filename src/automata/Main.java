@@ -12,10 +12,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("Window.fxml"));
         primaryStage.setTitle("Game of Life");
-        primaryStage.setScene(new Scene(root, 656, 564));
+        primaryStage.setScene(new Scene(root, 660, 600));
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);
