@@ -62,12 +62,12 @@ public class Controller implements Initializable {
 
         pane.prefWidthProperty().addListener((ov, oldValue, newValue) -> {
             canvas.setWidth(newValue.doubleValue());
-            draw(canvas.getGraphicsContext2D());
+            draw();
         });
 
         pane.prefHeightProperty().addListener((ov, oldValue, newValue) -> {
             canvas.setHeight(newValue.doubleValue());
-            draw(canvas.getGraphicsContext2D());
+            draw();
         });
 
         EventHandler<MouseEvent> handler = event -> {
@@ -87,7 +87,7 @@ public class Controller implements Initializable {
             else if (event.getButton() == MouseButton.SECONDARY)
                 board.kill(x, y);
 
-            draw(canvas.getGraphicsContext2D());
+            draw();
         };
 
         canvas.setOnMousePressed(handler);
@@ -102,7 +102,7 @@ public class Controller implements Initializable {
                     protected Void call() throws Exception {
                         while (running) {
                             board.nextGeneration();
-                            Platform.runLater(() -> draw(canvas.getGraphicsContext2D()));
+                            Platform.runLater(() -> draw());
                             Thread.sleep(100);
                         }
                         return null;
@@ -148,10 +148,10 @@ public class Controller implements Initializable {
 
     /**
      * Draws the grid and cells.
-     *
-     * @param gc the graphicsContext
      */
-    private void draw(GraphicsContext gc) {
+    private void draw() {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
         double size = getCellSize();
         Point2D boardPosition = getBoardPosition();
 
@@ -191,7 +191,7 @@ public class Controller implements Initializable {
         stage.showAndWait();
 
         board = new Board(dc.widthSpinner.getValue(), dc.heightSpinner.getValue(), dc.toroidal.isSelected());
-        draw(canvas.getGraphicsContext2D());
+        draw();
 
         file = null;
         Main.getPrimaryStage().setTitle(Main.title);
@@ -208,7 +208,7 @@ public class Controller implements Initializable {
         ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
         board = (Board) objectInputStream.readObject();
         objectInputStream.close();
-        draw(canvas.getGraphicsContext2D());
+        draw();
 
         Main.getPrimaryStage().setTitle(file + " - " + Main.title);
     }
@@ -248,19 +248,19 @@ public class Controller implements Initializable {
     @FXML
     public void handleRandomButtonClick() {
         board.generate();
-        draw(canvas.getGraphicsContext2D());
+        draw();
     }
 
     @FXML
     public void handleClearButtonClick() {
         board.clear();
-        draw(canvas.getGraphicsContext2D());
+        draw();
     }
 
     @FXML
     public void handleStepButtonClick() {
         board.nextGeneration();
-        draw(canvas.getGraphicsContext2D());
+        draw();
     }
 
     @FXML
