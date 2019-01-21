@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -24,12 +27,6 @@
                   <MenuItem mnemonicParsing="false" onAction="#handleExitButtonClick" text="Exit" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#handleRandomButtonClick" text="Random" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleClearButtonClick" text="Clear" />
-            </items>
-          </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem mnemonicParsing="false" text="About" />
@@ -37,13 +34,31 @@
           </Menu>
         </menus>
       </MenuBar>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" style="-fx-spacing: 8px;">
+        <items>
+            <Button mnemonicParsing="false" onAction="#handleRandomButtonClick" text="Random" />
+          <Button mnemonicParsing="false" onAction="#handleClearButtonClick" text="Clear" />
+            <Label contentDisplay="RIGHT" text="Speed:">
+               <graphic>
+                  <Slider min="1.0" />
+               </graphic>
+            </Label>
+        </items>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </ToolBar>
       <Pane fx:id="pane" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
             <Canvas fx:id="canvas" height="200.0" width="200.0" />
       </Pane>
-      <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+      <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" style="-fx-spacing: 8px;">
          <items>
             <Button fx:id="stopButton" disable="true" mnemonicParsing="false" onAction="#handleStopButtonClick" text="Stop" />
             <Button fx:id="playButton" mnemonicParsing="false" onAction="#handlePlayButtonClick" text="Play" />
+            <Button fx:id="stepButton" mnemonicParsing="false" onAction="#handleStepButtonClick" text="Step" />
          </items>
       </ToolBar>
    </children>
