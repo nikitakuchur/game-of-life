@@ -17,9 +17,9 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#handleNewButtonClick" text="New" />
-                  <MenuItem mnemonicParsing="false" text="Open..." />
-                  <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="Save As...." />
+                  <MenuItem mnemonicParsing="false" onAction="#handleOpenButtonClick" text="Open..." />
+                  <MenuItem mnemonicParsing="false" onAction="#handleSaveButtonClick" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleSaveAsButtonClick" text="Save As...." />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#handleExitButtonClick" text="Exit" />
             </items>

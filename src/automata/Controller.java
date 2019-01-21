@@ -3,6 +3,7 @@ package automata;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,10 +18,11 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -42,9 +44,16 @@ public class Controller implements Initializable {
     private Service<Void> service;
     private boolean running;
 
+    private FileChooser fileChooser;
+    private File file;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         board = new Board();
+
+        fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Game of Life files", "*.gol"));
 
         pane.prefWidthProperty().bind(pane.widthProperty());
         pane.prefHeightProperty().bind(pane.heightProperty());
@@ -179,6 +188,52 @@ public class Controller implements Initializable {
 
         board = new Board(dc.widthSpinner.getValue(), dc.heightSpinner.getValue(), dc.toroidal.isSelected());
         draw(canvas.getGraphicsContext2D());
+
+        file = null;
+        Main.getPrimaryStage().setTitle(Main.title);
+    }
+
+    @FXML
+    public void handleOpenButtonClick() throws IOException, ClassNotFoundException {
+        fileChooser.setTitle("Open File");
+        file = fileChooser.showOpenDialog(Main.getPrimaryStage());
+
+        if (file == null)
+            return;
+
+        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
+        board = (Board) objectInputStream.readObject();
+        objectInputStream.close();
+        draw(canvas.getGraphicsContext2D());
+
+        Main.getPrimaryStage().setTitle(file + " - " + Main.title);
+    }
+
+    @FXML
+    public void handleSaveButtonClick() throws IOException {
+        if (file == null) {
+            handleSaveAsButtonClick();
+            return;
+        }
+
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(file));
+        objectOutputStream.writeObject(board);
+        objectOutputStream.close();
+    }
+
+    @FXML
+    public void handleSaveAsButtonClick() throws IOException {
+        fileChooser.setTitle("Save File");
+        file = fileChooser.showSaveDialog(Main.getPrimaryStage());
+
+        if (file == null)
+            return;
+
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(file));
+        objectOutputStream.writeObject(board);
+        objectOutputStream.close();
+
+        Main.getPrimaryStage().setTitle(file + " - " + Main.title);
     }
 
     @FXML
