@@ -3,7 +3,6 @@ package automata;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +32,9 @@ public class Controller implements Initializable {
 
     @FXML
     public Canvas canvas;
+
+    @FXML
+    public Button stepButton;
 
     @FXML
     public Button playButton;
@@ -110,11 +112,13 @@ public class Controller implements Initializable {
         };
 
         service.setOnRunning(v -> {
+            stepButton.setDisable(true);
             playButton.setDisable(true);
             stopButton.setDisable(false);
         });
 
         service.setOnSucceeded(v -> {
+            stepButton.setDisable(false);
             playButton.setDisable(false);
             stopButton.setDisable(true);
             service.reset();
@@ -250,6 +254,12 @@ public class Controller implements Initializable {
     @FXML
     public void handleClearButtonClick() {
         board.clear();
+        draw(canvas.getGraphicsContext2D());
+    }
+
+    @FXML
+    public void handleStepButtonClick() {
+        board.nextGeneration();
         draw(canvas.getGraphicsContext2D());
     }
 
