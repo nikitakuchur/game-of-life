@@ -37,6 +37,12 @@ public class Controller implements Initializable {
     public Canvas canvas;
 
     @FXML
+    public Button randomButton;
+
+    @FXML
+    public Button clearButton;
+
+    @FXML
     public Slider speedSlider;
 
     @FXML
@@ -118,12 +124,16 @@ public class Controller implements Initializable {
         };
 
         service.setOnRunning(v -> {
+            randomButton.setDisable(true);
+            clearButton.setDisable(true);
             stepButton.setDisable(true);
             playButton.setDisable(true);
             stopButton.setDisable(false);
         });
 
         service.setOnSucceeded(v -> {
+            randomButton.setDisable(false);
+            clearButton.setDisable(false);
             stepButton.setDisable(false);
             playButton.setDisable(false);
             stopButton.setDisable(true);

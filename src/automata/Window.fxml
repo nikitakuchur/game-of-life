@@ -36,8 +36,8 @@
       </MenuBar>
       <ToolBar prefHeight="40.0" prefWidth="200.0" style="-fx-spacing: 8px;">
         <items>
-            <Button mnemonicParsing="false" onAction="#handleRandomButtonClick" text="Random" />
-          <Button mnemonicParsing="false" onAction="#handleClearButtonClick" text="Clear" />
+            <Button fx:id="randomButton" mnemonicParsing="false" onAction="#handleRandomButtonClick" text="Random" />
+          <Button fx:id="clearButton" mnemonicParsing="false" onAction="#handleClearButtonClick" text="Clear" />
             <Label contentDisplay="RIGHT" text="Speed:">
                <graphic>
                   <Slider fx:id="speedSlider" max="199.0" value="100.0" />
