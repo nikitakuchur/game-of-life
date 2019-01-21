@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -32,6 +33,9 @@ public class Controller implements Initializable {
 
     @FXML
     public Canvas canvas;
+
+    @FXML
+    public Slider speedSlider;
 
     @FXML
     public Button stepButton;
@@ -103,7 +107,8 @@ public class Controller implements Initializable {
                         while (running) {
                             board.nextGeneration();
                             Platform.runLater(() -> draw());
-                            Thread.sleep(100);
+                            Thread.sleep((long)(200 - speedSlider.getValue()));
+                            System.out.println((long)(200 - speedSlider.getValue()));
                         }
                         return null;
                     }

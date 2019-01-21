@@ -40,7 +40,7 @@
           <Button mnemonicParsing="false" onAction="#handleClearButtonClick" text="Clear" />
             <Label contentDisplay="RIGHT" text="Speed:">
                <graphic>
-                  <Slider min="1.0" />
+                  <Slider fx:id="speedSlider" max="199.0" value="100.0" />
                </graphic>
             </Label>
         </items>
