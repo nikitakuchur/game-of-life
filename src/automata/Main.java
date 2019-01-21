@@ -8,12 +8,21 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    public static final String title = "Game of Life";
+
+    private static Stage primaryStage;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("Window.fxml"));
-        primaryStage.setTitle("Game of Life");
+        this.primaryStage = primaryStage;
+        primaryStage.setTitle(title);
         primaryStage.setScene(new Scene(root, 714, 600));
         primaryStage.show();
+    }
+
+    public static Stage getPrimaryStage() {
+        return primaryStage;
     }
 
     public static void main(String[] args) {
