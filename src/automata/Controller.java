@@ -12,7 +12,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -108,7 +110,6 @@ public class Controller implements Initializable {
                             board.nextGeneration();
                             Platform.runLater(() -> draw());
                             Thread.sleep((long)(200 - speedSlider.getValue()));
-                            System.out.println((long)(200 - speedSlider.getValue()));
                         }
                         return null;
                     }
@@ -248,6 +249,17 @@ public class Controller implements Initializable {
     @FXML
     public void handleExitButtonClick() {
         Platform.exit();
+    }
+
+    @FXML
+    public void handleAboutButtonClick() {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle("About");
+        alert.setHeaderText(null);
+        alert.setContentText("Conway's Game of Life\nhttps://github.com/nikitakuchur/game-of-life\n\nNikita Kuchur\nnikitakuchur@gmail.com");
+        alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+
+        alert.showAndWait();
     }
 
     @FXML
