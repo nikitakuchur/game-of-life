@@ -1,4 +1,4 @@
-package automata;
+package com.github.nikitakuchur.automata;
 
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;

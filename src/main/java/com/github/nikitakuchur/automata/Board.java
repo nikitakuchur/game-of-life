@@ -1,4 +1,4 @@
-package automata;
+package com.github.nikitakuchur.automata;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -6,7 +6,7 @@ import java.util.Random;
 public class Board implements Serializable {
 
     private boolean[][] cells;
-    private boolean toroidal;
+    private final boolean toroidal;
 
     public Board() {
         cells = new boolean[60][80];
@@ -19,14 +19,14 @@ public class Board implements Serializable {
     }
 
     /**
-     * @return the width of the board
+     * Returns the width of the board.
      */
     public int getWidth() {
         return cells[0].length;
     }
 
     /**
-     * @return the height of the board
+     * Returns the height of the board.
      */
     public int getHeight() {
         return cells.length;
@@ -34,19 +34,23 @@ public class Board implements Serializable {
 
     private int convertX(int x) {
         x %= getWidth();
-        if (x < 0)
+        if (x < 0) {
             x += getWidth();
+        }
         return x;
     }
 
     private int convertY(int y) {
         y %= getHeight();
-        if (y < 0)
+        if (y < 0) {
             y += getHeight();
+        }
         return y;
     }
 
     /**
+     * Checks if the cell is alive or not.
+     *
      * @param x the x-component
      * @param y the y-component
      * @return true if the cell is alive in the given position and false otherwise
@@ -59,14 +63,16 @@ public class Board implements Serializable {
             return cells[y][x];
         }
 
-        if (x < 0 || x >= getWidth() || y < 0 || y >= getHeight())
+        if (isOutside(x, y)) {
             return false;
+        }
 
         return cells[y][x];
     }
 
     /**
      * Kills the cell in the given position.
+     *
      * @param x the x-component
      * @param y the y-component
      */
@@ -78,6 +84,7 @@ public class Board implements Serializable {
 
     /**
      * Revives the cell in the given position.
+     *
      * @param x the x-component
      * @param y the y-component
      */
@@ -94,19 +101,24 @@ public class Board implements Serializable {
         clear();
         Random rand = new Random();
 
-        for (int i = 0; i < cells.length; i++)
-            for (int j = 0; j < cells[0].length; j++)
-                if (rand.nextInt(2) == 1 )
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[0].length; j++) {
+                if (rand.nextInt(2) == 1) {
                     cells[i][j] = true;
+                }
+            }
+        }
     }
 
     /**
      * Clears the board.
      */
     public void clear() {
-        for (int i = 0; i < cells.length; i++)
-            for (int j = 0; j < cells[0].length; j++)
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[0].length; j++) {
                 cells[i][j] = false;
+            }
+        }
     }
 
     /**
@@ -121,10 +133,10 @@ public class Board implements Serializable {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (i == 1 && j == 1)
-                    continue;
-                if (isAlive(x - 1 + i, y - 1 + j))
+                if (i == 1 && j == 1) continue;
+                if (isAlive(x - 1 + i, y - 1 + j)) {
                     count++;
+                }
             }
         }
         return count;
@@ -136,22 +148,27 @@ public class Board implements Serializable {
     public void nextGeneration() {
         int w = getWidth();
         int h = getHeight();
-        
+
         boolean[][] cells = new boolean[h][w];
 
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
-                if (!isAlive(i, j) && neighboursCountAt(i, j) == 3)
+                if (!isAlive(i, j) && neighboursCountAt(i, j) == 3) {
                     cells[j][i] = true;
+                }
 
                 if (isAlive(i, j)) {
-                    if (neighboursCountAt(i, j) == 2 || neighboursCountAt(i, j) == 3)
-                        cells[j][i] = true;
-                    else
-                        cells[j][i] = false;
+                    cells[j][i] = neighboursCountAt(i, j) == 2 || neighboursCountAt(i, j) == 3;
                 }
             }
         }
         this.cells = cells;
+    }
+
+    /**
+     * Returns true if the position is outside the board and false otherwise.
+     */
+    public boolean isOutside(int x, int y) {
+        return x >= getWidth() || x < 0 || y >= getHeight() || y < 0;
     }
 }

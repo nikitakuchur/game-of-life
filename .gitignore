@@ -1,8 +1,9 @@
-.idea
-
+.idea/
 out/
-
 .idea_modules/
+target/
+
+game-of-life.iml
 
 com_crashlytics_export_strings.xml
 crashlytics.properties

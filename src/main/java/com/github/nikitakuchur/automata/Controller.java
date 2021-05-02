@@ -1,4 +1,4 @@
-package automata;
+package com.github.nikitakuchur.automata;
 
 import javafx.application.Platform;
 import javafx.concurrent.Service;
@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.*;
 import java.net.URL;
@@ -91,13 +92,15 @@ public class Controller implements Initializable {
             int y = (int) ((event.getY() - boardPosition.getY()) /
                     ((canvas.getHeight() - 2 * boardPosition.getY()) / board.getHeight()));
 
-            if (x < 0 || x >= board.getWidth() || y < 0 || y >= board.getHeight())
+            if (board.isOutside(x, y)) {
                 return;
+            }
 
-            if (event.getButton() == MouseButton.PRIMARY)
+            if (event.getButton() == MouseButton.PRIMARY) {
                 board.revive(x, y);
-            else if (event.getButton() == MouseButton.SECONDARY)
+            } else if (event.getButton() == MouseButton.SECONDARY) {
                 board.kill(x, y);
+            }
 
             draw();
         };
@@ -109,13 +112,12 @@ public class Controller implements Initializable {
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
-
                     @Override
                     protected Void call() throws Exception {
                         while (running) {
                             board.nextGeneration();
-                            Platform.runLater(() -> draw());
-                            Thread.sleep((long)(200 - speedSlider.getValue()));
+                            Platform.runLater(Controller.this::draw);
+                            Thread.sleep((long) (200 - speedSlider.getValue()));
                         }
                         return null;
                     }
@@ -142,22 +144,22 @@ public class Controller implements Initializable {
     }
 
     /**
-     * @return the cell size
+     * Returns the cell size
      */
     private double getCellSize() {
         double wr = canvas.getWidth() / board.getWidth();
         double hr = canvas.getHeight() / board.getHeight();
 
-        return wr > hr ? hr : wr;
+        return Math.min(wr, hr);
     }
 
     /**
-     * @return the board position
+     * Returns the board position
      */
     private Point2D getBoardPosition() {
         double size = getCellSize();
         double x = canvas.getWidth() / 2 - board.getWidth() * size / 2;
-        double y = canvas.getHeight() / 2 - board.getHeight() * size  / 2;
+        double y = canvas.getHeight() / 2 - board.getHeight() * size / 2;
 
         return new Point2D(x, y);
     }
@@ -176,25 +178,31 @@ public class Controller implements Initializable {
 
         // Draw the grid
         gc.setStroke(Color.LIGHTGRAY);
-        for (int i = 0; i <= board.getWidth(); i++)
+        for (int i = 0; i <= board.getWidth(); i++) {
             gc.strokeLine(boardPosition.getX() + i * size, boardPosition.getY(),
-                          boardPosition.getX() + i * size, boardPosition.getY() + board.getHeight() * size);
+                    boardPosition.getX() + i * size, boardPosition.getY() + board.getHeight() * size);
+        }
 
-        for (int i = 0; i <= board.getHeight(); i++)
+        for (int i = 0; i <= board.getHeight(); i++) {
             gc.strokeLine(boardPosition.getX(), boardPosition.getY() + i * size,
-                      boardPosition.getX() + board.getWidth() * size, boardPosition.getY() + i * size);
+                    boardPosition.getX() + board.getWidth() * size, boardPosition.getY() + i * size);
+        }
 
         // Draw cells
         gc.setFill(Color.ORANGE);
-        for (int i = 0; i < board.getWidth(); i++)
-            for (int j = 0; j < board.getHeight(); j++)
-                if (board.isAlive(i, j))
+        for (int i = 0; i < board.getWidth(); i++) {
+            for (int j = 0; j < board.getHeight(); j++) {
+                if (board.isAlive(i, j)) {
                     gc.fillRect(boardPosition.getX() + i * size, boardPosition.getY() + j * size, size, size);
+                }
+            }
+        }
     }
 
     @FXML
     public void handleNewButtonClick() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Dialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/dialog.fxml"));
+
         Parent parent = fxmlLoader.load();
         DialogController dc = fxmlLoader.getController();
 
@@ -202,6 +210,7 @@ public class Controller implements Initializable {
         Stage stage = new Stage();
         stage.setTitle("New Board");
         stage.setResizable(false);
+        stage.initStyle(StageStyle.UTILITY);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.showAndWait();
@@ -210,7 +219,7 @@ public class Controller implements Initializable {
         draw();
 
         file = null;
-        Main.getPrimaryStage().setTitle(Main.title);
+        Main.getPrimaryStage().setTitle(Main.TITLE);
     }
 
     @FXML
@@ -218,15 +227,14 @@ public class Controller implements Initializable {
         fileChooser.setTitle("Open File");
         file = fileChooser.showOpenDialog(Main.getPrimaryStage());
 
-        if (file == null)
-            return;
+        if (file == null) return;
 
         ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(file));
         board = (Board) objectInputStream.readObject();
         objectInputStream.close();
         draw();
 
-        Main.getPrimaryStage().setTitle(file + " - " + Main.title);
+        Main.getPrimaryStage().setTitle(file + " - " + Main.TITLE);
     }
 
     @FXML
@@ -246,14 +254,13 @@ public class Controller implements Initializable {
         fileChooser.setTitle("Save File");
         file = fileChooser.showSaveDialog(Main.getPrimaryStage());
 
-        if (file == null)
-            return;
+        if (file == null) return;
 
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(file));
         objectOutputStream.writeObject(board);
         objectOutputStream.close();
 
-        Main.getPrimaryStage().setTitle(file + " - " + Main.title);
+        Main.getPrimaryStage().setTitle(file + " - " + Main.TITLE);
     }
 
     @FXML
@@ -264,9 +271,11 @@ public class Controller implements Initializable {
     @FXML
     public void handleAboutButtonClick() {
         Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.initStyle(StageStyle.UTILITY);
         alert.setTitle("About");
         alert.setHeaderText(null);
-        alert.setContentText("Conway's Game of Life\nhttps://github.com/nikitakuchur/game-of-life\n\nNikita Kuchur\nnikitakuchur@gmail.com");
+        alert.setContentText("Conway's Game of Life\nhttps://github.com/nikitakuchur/game-of-life\n" +
+                "\nNikita Kuchur\nnikitakuchur@gmail.com");
         alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
 
         alert.showAndWait();
